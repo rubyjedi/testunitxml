@@ -11,10 +11,10 @@ require 'rdoc/rdoc'
 #include FileUtils::DryRun
 
 PROJECT_NAME = "testunitxml"
-PACKAGE_VERSION = "0.1.3"
-PACKAGE_FILES = FileList["{docs,lib,test}/**/*"].exclude("rdoc").to_a
+PACKAGE_VERSION = "0.1.4"
+PACKAGE_FILES = FileList["README", "CHANGES", "MIT-LICENSE", "setup.rb", "{docs,lib,test}/**/*"].exclude("rdoc").to_a
 
-SRC = FileList["README", "MIT-LICENSE", "lib/**/*.rb"]
+SRC = FileList["README", "CHANGES", "MIT-LICENSE", "lib/**/*.rb"]
 CLOBBER << FileList["docs/html"]
 
 desc "Generate documentation"
@@ -45,14 +45,15 @@ end
 
 # Add a task for creating GEM packages
 spec = Gem::Specification.new do |s|
-  s.name    = PROJECT_NAME
-  s.version = PACKAGE_VERSION
-  s.author  = "Henrik Martensson"
-  s.email   = "self@henrikmartensson.org"
-  s.homepage = "http://testunitxml.rubyforge.org/"
-  s.platform = Gem::Platform::RUBY
-  s.summary   = "Unit test suite for XML documents"
-  s.files     = FileList["{docs,lib,test}/**/*"].exclude("rdoc").to_a
+  s.name         = PROJECT_NAME
+  s.version      = PACKAGE_VERSION
+  s.author       = "Henrik Martensson"
+  s.email        = "self@henrikmartensson.org"
+  s.homepage     = "http://testunitxml.rubyforge.org/"
+  s.platform     = Gem::Platform::RUBY
+  s.summary      = "Unit test suite for XML documents"
+  #s.files        = FileList["{docs,lib,test}/**/*"].exclude("rdoc").to_a
+  s.files        = PACKAGE_FILES
   s.require_path = "lib"
   s.autorequire  = "test/unit/xml"
   s.test_file    = "test/tc_testunitxml.rb"
