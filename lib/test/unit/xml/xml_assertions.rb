@@ -2,6 +2,7 @@
 
 require 'rexml/document'
 require 'test/unit/xml/attributes_mixin' # Must be required after rexml/document
+require 'test/unit/xml/doctype_mixin' # Must be required after rexml/document
 require 'test/unit'
 require 'test/unit/xml/xmlequalfilter'
 require 'test/unit/xml/nodeiterator'
@@ -118,8 +119,7 @@ EOT
           # TODO: Implement Document comparison
           true
         when REXML::DocType
-          # TODO: Implement DOCTYPE comparison
-          true
+          compare_doctypes(expected_node, actual_node)
         when REXML::Element :
           compare_elements(expected_node, actual_node)
         when REXML::CData
@@ -135,6 +135,21 @@ EOT
         else
           puts "Unknown node type #{actual_node.class}"
           false
+        end
+      end
+      
+      def compare_doctypes(expected_node, actual_node)
+        return compare_system_id(expected_node.system, actual_node.system) &&
+          expected_node.public == actual_node.public
+      end
+      
+      def compare_system_id(expected_id, actual_id)
+        is_expected_urn = expected_id =~ /^urn:/i
+        is_actual_urn = actual_id =~ /^urn:/i
+        if is_expected_urn || is_actual_urn
+          expected_id == actual_id
+        else
+          true
         end
       end
       

@@ -41,7 +41,7 @@ class TestTestUnitXml < Test::Unit::TestCase
     @xml_decl1 = REXML::XMLDecl.new(1.0, "utf-8", "yes")
     @xml_decl2 = REXML::XMLDecl.new(1.1, "utf-8", "yes")
     @xml_decl3 = REXML::XMLDecl.new(1.0, "utf-16", "yes")
-    @xml_decl4 = REXML::XMLDecl.new(1.0, "utf-8", "no")   
+    @xml_decl4 = REXML::XMLDecl.new(1.0, "utf-8", "no")
   end
   
   def teardown
@@ -118,6 +118,40 @@ class TestTestUnitXml < Test::Unit::TestCase
     assert_instance_of(REXML::XMLDecl, @xml_decl1)
     assert_xml_equal(@xml_decl1, @xml_decl1)
     check_assertion_failure(@xml_decl1, @xml_decl2)
+  end
+  
+  def test_assert_xml_equal_doctype
+    string1 = <<-'XMLEND'
+    <!DOCTYPE r PUBID "TEST1" "http://www.henrikmartensson.org/dtd1">
+    <r/>
+    XMLEND
+    string2 = <<-'XMLEND'
+    <!DOCTYPE r PUBID "TEST1" "http://www.henrikmartensson.org/dtd2">
+    <r/>
+    XMLEND
+    string3 = <<-'XMLEND'
+    <!DOCTYPE r PUBID "TEST2" "http://www.henrikmartensson.org/dtd1">
+    <r/>
+    XMLEND
+    string4 = <<-'XMLEND'
+    <!DOCTYPE r SYSTEM "http://www.henrikmartensson.org/dtd1">
+    <r/>
+    XMLEND
+    string5 = <<-'XMLEND'
+    <!DOCTYPE r SYSTEM "urn:x-henrikmartensson.org:dtd1">
+    <r/>
+    XMLEND
+    string6 = <<-'XMLEND'
+    <!DOCTYPE r SYSTEM "urn:x-henrikmartensson.org:dtd2">
+    <r/>
+    XMLEND
+    assert_xml_equal(string1, string1)
+    assert_xml_equal(string1, string2)
+    check_assertion_failure(string1, string3)
+    check_assertion_failure(string1, string4)
+    check_assertion_failure(string1, string5)
+    assert_xml_equal(string5, string5)
+    check_assertion_failure(string5, string6)
   end
     
 end
