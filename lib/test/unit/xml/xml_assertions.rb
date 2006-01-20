@@ -16,7 +16,6 @@ module Test
     module XML
 
       # This method checks whether two well-formed XML documents are equal.
-      # Doctype declarations are ignored for the purposes of comparison.
       # Two XML documents are considered equal if:
       # * They contain the same type of nodes, in the same order,
       #   except for text nodes that are empty, or contain only
@@ -28,11 +27,37 @@ module Test
       #      XML declarations are equal if they have the same version,
       #      encoding, and stand-alone pseudo-attributes.
       # Doctype::
-      #      Doctype declarations are ignored.
+      #      Doctypes are equal if they fulfill all of the following conditions:
+      #      * They have the same public identifier, or neither has a public identifier
+      #      * If one of the doctypes has a system identifier that is a URN,
+      #        the other doctype must have a system identifier that is the same URN.
+      #        System identifiers that are URLs are ignored for comparison purposes.
+      #        The reason is that the same DTD is very often stored in many different
+      #        locations (for example different directories on different computers).
+      #        Therefore the physical location of the DTD does not say anything useful
+      #        about whether two documents are equal.
+      #      * An entity declaration present in one of the doctype declarations
+      #        must also be present in the other.
+      #      * A notation declaration present in one of the doctype declarations
+      #        must also be present in the other.
+      # Internal General Entity Declaration::
+      #      Internal General entity declarations are equal if they have the same name,
+      #      and the same value.
+      # External General Entity Declaration::
+      #      External general entity declarations are equal if they have the same name,
+      #      and if the identifiers are of the same type (PUBLIC or SYSTEM) and have
+      #      the same value. Note that if the identifiers are URLs, a comparison may
+      #      fail even though both URLS point to the same resource, for example if one
+      #      URL is relative and the other is absolute.
+      # Notation Declaration::
+      #      Notation declarations are equal if they have the same name,
+      #      and if the identifiers are of the same type (PUBLIC or SYSTEM) and have
+      #      the same value. 
       # Elements::
       #      Elements are considered equal if they have the same generic
-      #      identifier (tag name) and belong to the same namespace. The
-      #      namespace _prefixes_ may be different.
+      #      identifier (tag name), belong to the same namespace, and have the same
+      #      attributes. Note that the namespace _prefixes_ of two elements may be different
+      #      as long as they belong to the same namespace.
       # Attributes::
       #      Attributes are equal if they belong to the same namespace,
       #      have the same name, and the same value.
@@ -132,6 +157,8 @@ EOT
           compare_pi(expected_node, actual_node)
         when REXML::XMLDecl
           compare_xml_declaration(expected_node, actual_node)
+        #when REXML::Entity
+        #  compare_xml_entities(expected_node, actual_node)
         else
           puts "Unknown node type #{actual_node.class}"
           false
@@ -140,7 +167,8 @@ EOT
       
       def compare_doctypes(expected_node, actual_node)
         return compare_system_id(expected_node.system, actual_node.system) &&
-          expected_node.public == actual_node.public
+          expected_node.public == actual_node.public &&
+          compare_xml_internal_dtd_subset(expected_node, actual_node)
       end
       
       def compare_system_id(expected_id, actual_id)
@@ -195,6 +223,36 @@ EOT
       def compare_xml_declaration(expected_decl, actual_decl)
         return expected_decl == actual_decl
       end
+      
+      def compare_xml_internal_dtd_subset(expected_node, actual_node)
+        expected_subset = expected_node.children()
+        actual_subset = actual_node.children()
+        return false unless expected_subset.length == actual_subset.length
+        expected_subset.inject(true) { |memo, expected_decl|
+          #puts "Memo: " + memo.inspect
+          #puts "Expected decl: " + expected_decl.inspect
+          case expected_decl
+          when REXML::Entity
+            #puts "Actual entity decl: " + actual_node.entity(expected_decl.name).inspect
+            memo &&
+            expected_decl.value == actual_node.entities[expected_decl.name].value &&
+            expected_decl.ndata == actual_node.entities[expected_decl.name].ndata
+          when REXML::NotationDecl
+            #puts "Expected decl: " + expected_decl.inspect
+            true
+          when REXML::Comment
+            true
+          else
+            raise "Unexpected node type in internal DTD subset of expected document: " + expected_decl.inspect
+          end
+        } 
+      end
+      
+#       def compare_xml_entity(expected_node, actual_node)
+#         return expected_node.name == actual_node.name &&
+#                expected_node.value == actual_node.value
+#       end
+
       
     end      
   end

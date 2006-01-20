@@ -11,6 +11,10 @@ module Test
           case
           when node.kind_of?(REXML::Text)
             is_significant?(node.value)
+          when node.kind_of?(REXML::Entity)
+            false
+          when node.kind_of?(REXML::NotationDecl)
+            false
           else
             true
           end

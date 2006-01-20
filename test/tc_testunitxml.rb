@@ -122,15 +122,15 @@ class TestTestUnitXml < Test::Unit::TestCase
   
   def test_assert_xml_equal_doctype
     string1 = <<-'XMLEND'
-    <!DOCTYPE r PUBID "TEST1" "http://www.henrikmartensson.org/dtd1">
+    <!DOCTYPE r PUBLIC "TEST1" "http://www.henrikmartensson.org/dtd1">
     <r/>
     XMLEND
     string2 = <<-'XMLEND'
-    <!DOCTYPE r PUBID "TEST1" "http://www.henrikmartensson.org/dtd2">
+    <!DOCTYPE r PUBLIC "TEST1" "http://www.henrikmartensson.org/dtd2">
     <r/>
     XMLEND
     string3 = <<-'XMLEND'
-    <!DOCTYPE r PUBID "TEST2" "http://www.henrikmartensson.org/dtd1">
+    <!DOCTYPE r PUBLIC "TEST2" "http://www.henrikmartensson.org/dtd1">
     <r/>
     XMLEND
     string4 = <<-'XMLEND'
@@ -152,6 +152,82 @@ class TestTestUnitXml < Test::Unit::TestCase
     check_assertion_failure(string1, string5)
     assert_xml_equal(string5, string5)
     check_assertion_failure(string5, string6)
+  end
+  
+  def test_assert_xml_equal_internal_entity_decl
+    string1 = <<-'XMLEND'
+    <!DOCTYPE r SYSTEM "http://www.henrikmartensson.org/dtd1" [
+      <!ENTITY internal1 "This is an internal entity">
+    ]>
+    <r/>
+    XMLEND
+    string2 = <<-'XMLEND'
+    <!DOCTYPE r SYSTEM "http://www.henrikmartensson.org/dtd1" [
+      <!ENTITY internal1 "This is another internal entity">
+    ]>
+    <r>&internal1;</r>
+    XMLEND
+    string3 = <<-'XMLEND'
+    <!DOCTYPE r SYSTEM "http://www.henrikmartensson.org/dtd1" [
+      <!ENTITY internal1 "This is an internal entity">
+      <!ENTITY internal2 "This is another internal entity">
+    ]>
+    <r>&internal1;</r>
+    XMLEND
+    string4 = <<-'XMLEND'
+    <!DOCTYPE r SYSTEM "http://www.henrikmartensson.org/dtd1" [
+      <!ENTITY internal2 "This is another internal entity">
+      <!ENTITY internal1 "This is an internal entity">
+    ]>
+    <r>&internal1;</r>
+    XMLEND
+    string5 = <<-'XMLEND'
+    <!DOCTYPE r SYSTEM "http://www.henrikmartensson.org/dtd1" [
+      <!ENTITY internal1 "This is an internal entity">
+      <!ENTITY internal2 "This is another internal entity">
+      <!ENTITY internal3 "This is a third internal entity">
+    ]>
+    <r>&internal1;</r>
+    XMLEND
+    assert_xml_equal(string1, string1)
+    check_assertion_failure(string1, string2)
+    check_assertion_failure(string1, string3)
+    check_assertion_failure(string3, string1)
+    assert_xml_equal(string3, string4,"Testing that entities may be declared in any order")
+  end
+  
+  def test_assert_xml_equal_external_entity_decl
+    string1 = <<-'XMLEND'
+    <!DOCTYPE r SYSTEM "http://www.henrikmartensson.org/dtd1" [
+      <!NOTATION pdf SYSTEM "pdf">
+      <!NOTATION word SYSTEM "word">
+      <!ENTITY external1 SYSTEM "urn:x-henrikmartensson.org:resource1" NDATA pdf>
+    ]>
+    <r/>
+    XMLEND
+    string2 = <<-'XMLEND'
+    <!DOCTYPE r SYSTEM "http://www.henrikmartensson.org/dtd1" [
+      <!NOTATION pdf SYSTEM "pdf">
+      <!NOTATION word SYSTEM "word">
+      <!ENTITY external1 SYSTEM "urn:x-henrikmartensson.org:resource1" NDATA word>
+   ]>
+    <r/>
+    XMLEND
+    string3 = <<-'XMLEND'
+    <!DOCTYPE r SYSTEM "http://www.henrikmartensson.org/dtd1" [
+      <!NOTATION pdf SYSTEM "pdf">
+      <!ENTITY external1 SYSTEM "urn:x-henrikmartensson.org:resource1" NDATA pdf>
+      <!NOTATION word SYSTEM "word">
+    ]>
+    <r/>
+    XMLEND
+    assert_xml_equal(string1, string1)
+    check_assertion_failure(string1, string2)
+    assert_xml_equal(string1, string3)
+  end
+  
+  def test_assert_xml_equal_notation_decl
+    #TODO: Implement notation testing
   end
     
 end

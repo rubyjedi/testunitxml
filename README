@@ -83,17 +83,12 @@ few things worthy of note:
 
 There are a few things in the pipeline:
 
-* Doctype comparison. There will be assertions for comparing:
-    - Entity declarations
-    - SYSTEM identifiers
-    - PUBLIC identifiers
-* Schema Validation. The first thing to add is validation
-  against RELAX NG schemas. This will probably be done
-  by having Test::Unit::XML call Jing, a popular RELAX NG
-  validator written in Java. I will also look into DTD
-  validation, and (Urgh!) W3C Schema validation, but
-  RELAX NG has top priority, because it is the most powerful
-  and flexible of the three schema types.
+* assert_xml_equal_structure - checks that the structure
+  of two documents are equal, but ignores content, attributes,
+  processing istructions, comments, CDATA, and doctype
+  declarations.
+* assert_xml_similar - Like assert_xml_equal, but ignores the
+  order of child elements.
 * Configurability. It _might_ be useful to be able to set
   configuration options for testing. I'll have to think a
   bit about this though.
