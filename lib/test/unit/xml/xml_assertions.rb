@@ -245,22 +245,14 @@ EOT
             expected_decl.name == actual_notation_decl.name &&
             expected_decl.public == actual_notation_decl.public &&
             expected_decl.system == actual_notation_decl.system
-
           when REXML::Comment
             true
           else
             raise "Unexpected node type in internal DTD subset of expected document: " + expected_decl.inspect
           end
-        } 
+        }
       end
-      
-#       def compare_xml_entity(expected_node, actual_node)
-#         return expected_node.name == actual_node.name &&
-#                expected_node.value == actual_node.value
-#       end
-
-      
-    end      
+    end
   end
 end
 

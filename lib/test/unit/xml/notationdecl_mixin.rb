@@ -1,14 +1,25 @@
 module REXML
+
+  # The REXML::NotationDecl mix-in adds methods that are useful for
+  # notation declarations, but not present in the standard
+  # REXML::NotationDecl class
   class NotationDecl
+    
+    # This method retrieves the name of the notation.
     def name
       @name
     end
     
-    #TODO: Fix system and public - @rest may contain both public and system identifier
+    # This method retrieves the system identifier specified in the notation
+    # declaration. If there is no system identifier defined, the method returns
+    # +nil+
     def system
       parse_rest(@rest)[1]
     end
     
+    # This method retrieves the public identifier specified in the notation
+    # declaration. If there is no public identifier defined, the method returns
+    # +nil+
     def public
       return nil unless @middle == "PUBLIC"
       parse_rest(@rest)[0]

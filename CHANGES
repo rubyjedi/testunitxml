@@ -3,6 +3,7 @@
 
 == Version 0.1.4
 
+* Added support for Doctype comparisons in +assert_xml_equal+
 * Added <tt>setup.rb</tt> file to distribution packages
 * Added installation section to README file
 * Added links to online tutorial to README file

@@ -58,11 +58,6 @@ context of XML documents. I have tried to follow W3C
 XML recommendations as far as possible. There are a
 few things worthy of note:
 
-* Doctype declarations are not compared with each
-  other. If a declaration is present in one document,
-  there must be a Doctype declaration in the other,
-  but there is no effort to compare them.
-
 * Namespace _declarations_, i.e. attributes that declare
   namespaces, are ignored for comparison purposes. (The
   namespaces _are_ used in comparisons.) The reason is
