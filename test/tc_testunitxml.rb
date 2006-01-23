@@ -227,7 +227,27 @@ class TestTestUnitXml < Test::Unit::TestCase
   end
   
   def test_assert_xml_equal_notation_decl
-    #TODO: Implement notation testing
+    string1 = <<-'XMLEND'
+    <!DOCTYPE r SYSTEM "http://www.henrikmartensson.org/dtd1" [
+      <!NOTATION pdf SYSTEM "pdf">
+    ]>
+    <r/>
+    XMLEND
+    string2 = <<-'XMLEND'
+    <!DOCTYPE r SYSTEM "http://www.henrikmartensson.org/dtd1" [
+      <!NOTATION pdf PUBLIC "pdf">
+    ]>
+    <r/>
+    XMLEND
+    string3 = <<-'XMLEND'
+    <!DOCTYPE r SYSTEM "http://www.henrikmartensson.org/dtd1" [
+      <!NOTATION pdf SYSTEM "word">
+    ]>
+    <r/>
+    XMLEND
+    assert_xml_equal(string1, string1)
+    check_assertion_failure(string1, string2)
+    check_assertion_failure(string1, string3)
   end
     
 end

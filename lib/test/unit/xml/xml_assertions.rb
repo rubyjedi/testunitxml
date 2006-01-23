@@ -3,6 +3,7 @@
 require 'rexml/document'
 require 'test/unit/xml/attributes_mixin' # Must be required after rexml/document
 require 'test/unit/xml/doctype_mixin' # Must be required after rexml/document
+require 'test/unit/xml/notationdecl_mixin' # Must be required after rexml/document
 require 'test/unit'
 require 'test/unit/xml/xmlequalfilter'
 require 'test/unit/xml/nodeiterator'
@@ -238,8 +239,13 @@ EOT
             expected_decl.value == actual_node.entities[expected_decl.name].value &&
             expected_decl.ndata == actual_node.entities[expected_decl.name].ndata
           when REXML::NotationDecl
-            #puts "Expected decl: " + expected_decl.inspect
-            true
+            actual_notation_decl = actual_node.notation(expected_decl.name)
+            memo &&
+            actual_notation_decl != nil &&
+            expected_decl.name == actual_notation_decl.name &&
+            expected_decl.public == actual_notation_decl.public &&
+            expected_decl.system == actual_notation_decl.system
+
           when REXML::Comment
             true
           else
