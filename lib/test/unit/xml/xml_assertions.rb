@@ -230,11 +230,8 @@ EOT
         actual_subset = actual_node.children()
         return false unless expected_subset.length == actual_subset.length
         expected_subset.inject(true) { |memo, expected_decl|
-          #puts "Memo: " + memo.inspect
-          #puts "Expected decl: " + expected_decl.inspect
           case expected_decl
           when REXML::Entity
-            #puts "Actual entity decl: " + actual_node.entity(expected_decl.name).inspect
             memo &&
             expected_decl.value == actual_node.entities[expected_decl.name].value &&
             expected_decl.ndata == actual_node.entities[expected_decl.name].ndata

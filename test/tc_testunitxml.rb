@@ -249,5 +249,46 @@ class TestTestUnitXml < Test::Unit::TestCase
     check_assertion_failure(string1, string2)
     check_assertion_failure(string1, string3)
   end
+  
+  def test_assert_xml_equal_doctype_comment
+    string1 = <<-'XMLEND'
+    <!DOCTYPE r SYSTEM "http://www.henrikmartensson.org/dtd1" [
+      <!NOTATION pdf SYSTEM "pdf">
+      <!-- A comment -->
+    ]>
+    <r/>
+    XMLEND
+    string2 = <<-'XMLEND'
+    <!DOCTYPE r SYSTEM "http://www.henrikmartensson.org/dtd1" [
+      <!-- A comment -->
+      <!NOTATION pdf SYSTEM "pdf">
+    ]>
+    <r/>
+    XMLEND
+    string3 = <<-'XMLEND'
+    <!DOCTYPE r SYSTEM "http://www.henrikmartensson.org/dtd1" [
+      <!NOTATION pdf SYSTEM "pdf">
+      <!-- A different comment -->
+    ]>
+    <r/>
+    XMLEND
+    string4 = <<-'XMLEND'
+    <!DOCTYPE r SYSTEM "http://www.henrikmartensson.org/dtd1" [
+      <!-- A comment -->
+      <!-- Another comment -->
+    ]>
+    <r/>
+    XMLEND
+    string5 = <<-'XMLEND'
+    <!DOCTYPE r SYSTEM "http://www.henrikmartensson.org/dtd1" [
+      <!-- Another comment -->
+      <!-- A comment -->
+    ]>
+    <r/>
+    XMLEND
+    assert_xml_equal(string1, string2)
+    check_assertion_failure(string1, string3)
+    check_assertion_failure(string4, string5)
+  end
     
 end
