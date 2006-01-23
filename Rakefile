@@ -56,7 +56,7 @@ spec = Gem::Specification.new do |s|
   s.files        = PACKAGE_FILES
   s.require_path = "lib"
   s.autorequire  = "test/unit/xml"
-  s.test_file    = "test/tc_testunitxml.rb"
+  s.test_file    = "test/ts_testunitxml.rb"
   s.has_rdoc     = true
 #  s.extra_rdoc_files = ["README"]
 end
