@@ -11,7 +11,7 @@ require 'rdoc/rdoc'
 #include FileUtils::DryRun
 
 PROJECT_NAME = "testunitxml"
-PACKAGE_VERSION = "0.1.4"
+PACKAGE_VERSION = "0.1.5"
 PACKAGE_FILES = FileList["README", "CHANGES", "MIT-LICENSE", "setup.rb", "{docs,lib,test}/**/*"].exclude("rdoc").to_a
 
 SRC = FileList["README", "CHANGES", "MIT-LICENSE", "lib/**/*.rb"]
