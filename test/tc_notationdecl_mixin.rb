@@ -5,6 +5,9 @@
 $:.unshift @@lib_path 
 
 require 'test/unit'
+require 'rexml/document'
+require 'test/unit/xml/doctype_mixin'
+require 'test/unit/xml/notationdecl_mixin'
 
 class TestNotationDecl < Test::Unit::TestCase
 
@@ -22,6 +25,10 @@ class TestNotationDecl < Test::Unit::TestCase
     <r/>
     XMLEND
     @doctype = REXML::Document.new(doc_string).doctype
+  end
+  
+  def test_name
+    assert_equal('n1', @doctype.notation('n1').name)
   end
   
   def test_public
