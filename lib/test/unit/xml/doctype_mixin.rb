@@ -10,7 +10,12 @@ module REXML
     
     # This method retrieves the public identifier identifying the document's DTD.
     def public
-      @long_name
+      case @external_id
+      when "SYSTEM"
+        nil
+      when "PUBLIC"
+        strip_quotes(@long_name)
+      end
     end
     
     # This method retrieves the system identifier identifying the document's DTD
@@ -19,7 +24,7 @@ module REXML
       when "SYSTEM"
         strip_quotes(@long_name)
       when "PUBLIC"
-      
+        @uri.kind_of?(String) ? strip_quotes(@uri) : nil
       end
     end
     

@@ -37,8 +37,19 @@ class TestDoctype < Test::Unit::TestCase
     @doctype3 = REXML::Document.new(document_string3).doctype
   
   end
+   
+  def test_public
+    assert_equal(nil, @doctype1.public)
+    assert_equal(@pubid, @doctype2.public)
+    assert_equal(@pubid, @doctype3.public)
+  end
   
-  # notation   notations   public   system  
+  def test_system
+    assert_equal(@sysid, @doctype1.system)
+    assert_equal(nil, @doctype2.system)
+    assert_equal(@sysid, @doctype3.system)
+  end
+
   def test_notation
     assert_equal(@notid1, @doctype1.notation("n1").system)
     assert_equal(@notid2, @doctype1.notation("n2").system)
@@ -55,16 +66,6 @@ class TestDoctype < Test::Unit::TestCase
     notations.find { |notation|
       name == notation.name
     }
-  end
-  
-  def test_public
-    #puts @doctype3.inspect
-    #assert_equal(nil, @doctype1.public)
-  end
-  
-  def test_system
-    assert_equal(@sysid, @doctype1.system)
-    assert_equal(nil, @doctype2.system)
   end
   
 end
