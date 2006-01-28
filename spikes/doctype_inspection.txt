@@ -1,0 +1,34 @@
+I inspected REXML::Doctype objects to find out how public and system
+identifiers are stored. This was necessary to create a functioning
+Doctype mixin.
+
+SYSTEM Only
+<REXML::DocType:0xb7c4a60c 
+	@long_name="\"urn:x-test:sysid1\"", 
+	@entities={...}, 
+	@external_id="SYSTEM", 
+	@name="r", 
+	@parent=<UNDEFINED> ... </>, 
+	@children=[...], 
+	@uri=nil>
+
+PUBLIC Only
+<REXML::DocType:0xb7bb1334 
+	@parent=<UNDEFINED> ... </>, 
+	@entities={...}, 
+	@external_id="PUBLIC", 
+	@uri=nil, 
+	@name="r", 
+	@children=[], 
+	@long_name="\"TEST_ID\"">
+
+Both
+
+<REXML::DocType:0xb7bf4f6c 
+	@name="r", 
+	@children=[], 
+	@long_name="\"TEST_ID\"", 
+	@parent=<UNDEFINED> ... </>,
+	@entities={...},
+	@external_id="PUBLIC", 
+	@uri="\"urn:x-test:sysid1\"">

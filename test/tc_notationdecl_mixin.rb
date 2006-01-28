@@ -1,10 +1,10 @@
-#! /usr/bin/ruby
+#! /usr/local/bin/ruby
 
 
 @@lib_path = File.join(File.dirname(__FILE__), "..", "lib")
 $:.unshift @@lib_path 
 
-require 'test/unit/xml'
+require 'test/unit'
 
 class TestNotationDecl < Test::Unit::TestCase
 

@@ -1,3 +1,6 @@
+
+require 'test/unit/xml/notationdecl_mixin'
+
 module REXML
 
   # The REXML::DocType mix-in adds methods that are useful for
@@ -12,7 +15,12 @@ module REXML
     
     # This method retrieves the system identifier identifying the document's DTD
     def system
-      @uri
+      case @external_id
+      when "SYSTEM"
+        strip_quotes(@long_name)
+      when "PUBLIC"
+      
+      end
     end
     
     # This method returns a list of notations that have been declared in the
@@ -28,5 +36,14 @@ module REXML
         notation_decl.name == name
       }
     end
+    
+    private
+    
+    def strip_quotes(quoted_string)
+      quoted_string =~ /^[\'\"].*[\´\"]$/ ?
+        quoted_string[1, quoted_string.length-2] :
+        quoted_string
+    end
+    
   end
 end
