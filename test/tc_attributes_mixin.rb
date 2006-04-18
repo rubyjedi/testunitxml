@@ -34,5 +34,4 @@ class TestAttributes < Test::Unit::TestCase
     assert_equal("5", @attributes.get_attribute_ns(@ns_a, "e").value)
     assert_equal("6", @attributes.get_attribute_ns(@ns_b, "f").value)
   end
-  
 end

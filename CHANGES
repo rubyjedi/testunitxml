@@ -1,5 +1,9 @@
 = Changes
 
+== Version 0.1.5
+
+* Fixed a bug when comparing attributes containing entity references.
+* Added an <tt>assert_xml_not_equal</tt> method.
 
 == Version 0.1.4
 

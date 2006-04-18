@@ -82,7 +82,7 @@ module Test
               expected_namespace = expected_attribute.namespace
               actual_attribute = actual_attributes.get_attribute_ns(expected_namespace, expected_name)
               return false unless actual_attribute
-              return false if expected_attribute != actual_attribute
+              return false if expected_attribute.value() != actual_attribute.value()
             end
           end
           true

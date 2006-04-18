@@ -106,6 +106,23 @@ EOT
         end
       end
       
+      
+      # This method compares two XML documents and returns +true+ if they are
+      # _not_ equal, +false+ otherwise. This is the inverse of assert_xml_equal.
+      def assert_xml_not_equal(expected_doc, actual_doc, message = nil)
+        expected_doc = parse_xml(expected_doc)
+        actual_doc = parse_xml(actual_doc)
+        _wrap_assertion do
+          full_message = build_message(message, <<EOT, actual_doc.inspect, expected_doc.inspect)
+
+<?> expected not to be equal to
+<?> but was equal.
+EOT
+          assert_block(full_message){ ! are_equal?(expected_doc, actual_doc)}
+        end
+      end
+      
+      
       private
       
       def parse_xml(xml)

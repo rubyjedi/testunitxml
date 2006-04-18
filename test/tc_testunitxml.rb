@@ -290,5 +290,26 @@ class TestTestUnitXml < Test::Unit::TestCase
     check_assertion_failure(string1, string3)
     check_assertion_failure(string4, string5)
   end
+  
+  def test_xml_not_equal
+    assert_xml_not_equal(@element1, @element2)
+    assert_xml_not_equal(@element1, @element3)
+    assert_xml_not_equal(@element1, @element4)
+    assert_xml_not_equal(@element1, @element5)
+  end
+  
+  def test_entity_in_attribute
+    # This test was propmpted by a bug report from
+    # Paul Battley
+    xml_string = '<root text="This &amp; that"/>'
+    doc_original = REXML::Document.new(xml_string)
+    doc_clone = doc_original.dup
+    assert_xml_equal(doc_original, doc_clone)
+    
+    xml_different = '<root text="this &amp; that"/>'
+    doc_different = REXML::Document.new(xml_different)
+    assert_xml_not_equal(doc_original, doc_different)
+  end
+  
     
 end
