@@ -15,6 +15,12 @@ module Test
         # next node. The first argument is a node. The second argument
         # is an optional node filter.
         def NodeIterator.find_next_node(node, node_filter = NullNodeFilter.new)
+          #puts "In NodeIterator: #{node.class}"
+          #puts "  has_children: #{NodeIterator.has_children?(node)}"
+          #puts "  next_sibling_node: #{node.next_sibling_node}"
+          #puts "  has_parent_with_sibling?: #{NodeIterator.has_parent_with_sibling?(node)}"
+          #node.write if node.respond_to?(:name) && node.name == 'TestThing'
+          return nil unless node
           next_node = nil
           if NodeIterator.has_children?(node) then
             next_node = node[0] # The index should be 1 according to the REXML docs

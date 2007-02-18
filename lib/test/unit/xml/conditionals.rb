@@ -22,7 +22,13 @@ module Test
         # If the nodes have child nodes, for example if the nodes are
         # +Element+ nodes with content, they will _not_ be recursively compared.
         def compare_xml_nodes(expected_node, actual_node)
+          #puts "Conditionals, Expected: #{expected_node.class} : #{expected_node.name}"
+          #puts "Conditionals, Expected: #{actual_node.class} : #{actual_node.name}"
           return false unless actual_node.instance_of? expected_node.class
+          return false if expected_node == nil && actual_node != nil
+          return false if expected_node != nil && actual_node == nil
+          #puts "actual_node is nil" unless actual_node
+          #puts "expected_node is nil" unless expected_node
           case actual_node
           when REXML::Document
             # TODO: Implement Document comparison
