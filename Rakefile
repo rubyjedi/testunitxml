@@ -7,7 +7,7 @@ require 'rdoc/rdoc'
 
 #include FileUtils::DryRun
 
-PROJECT_NAME = "testunitxml"
+PROJECT_NAME = "rubyjedi-testunitxml"
 PACKAGE_VERSION = "0.1.5"
 PACKAGE_FILES = FileList["README", "CHANGES", "MIT-LICENSE", "{docs,lib,test}/**/*"].exclude("rdoc").to_a
 
@@ -44,9 +44,9 @@ end
 spec = Gem::Specification.new do |s|
   s.name         = PROJECT_NAME
   s.version      = PACKAGE_VERSION
-  s.author       = "Henrik Martensson"
-  s.email        = "self@henrikmartensson.org"
-  s.homepage     = "http://testunitxml.rubyforge.org/"
+  s.author       = "Henrik Martensson, Laurence A. Lee"
+  s.email        = "self@henrikmartensson.org, lalee@pobox.com"
+  s.homepage     = "http://wiki.github.com/rubyjedi/testunitxml/"
   s.platform     = Gem::Platform::RUBY
   s.summary      = "Unit test suite for XML documents"
   s.description  = "Test::Unit::XML extends the Test::Unit framework with an assertion for testing well-formed XML documents"
