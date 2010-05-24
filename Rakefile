@@ -1,8 +1,5 @@
-#require 'fileutils'
 require 'rubygems'
-Gem::manage_gems
 require 'rake/clean'
-#require 'rake/packagetask'
 require 'rake/gempackagetask'
 require 'rake/rdoctask'
 require 'rake/testtask'
@@ -12,7 +9,7 @@ require 'rdoc/rdoc'
 
 PROJECT_NAME = "testunitxml"
 PACKAGE_VERSION = "0.1.5"
-PACKAGE_FILES = FileList["README", "CHANGES", "MIT-LICENSE", "setup.rb", "{docs,lib,test}/**/*"].exclude("rdoc").to_a
+PACKAGE_FILES = FileList["README", "CHANGES", "MIT-LICENSE", "{docs,lib,test}/**/*"].exclude("rdoc").to_a
 
 SRC = FileList["README", "CHANGES", "MIT-LICENSE", "lib/**/*.rb"]
 CLOBBER << FileList["docs/html"]
@@ -52,10 +49,9 @@ spec = Gem::Specification.new do |s|
   s.homepage     = "http://testunitxml.rubyforge.org/"
   s.platform     = Gem::Platform::RUBY
   s.summary      = "Unit test suite for XML documents"
-  #s.files        = FileList["{docs,lib,test}/**/*"].exclude("rdoc").to_a
+  s.description  = "Test::Unit::XML extends the Test::Unit framework with an assertion for testing well-formed XML documents"
   s.files        = PACKAGE_FILES
   s.require_path = "lib"
-  s.autorequire  = "test/unit/xml"
   s.test_file    = "test/ts_testunitxml.rb"
   s.has_rdoc     = true
 #  s.extra_rdoc_files = ["README"]
