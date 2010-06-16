@@ -48,7 +48,7 @@ module REXML
       else
         raise "Could not parse \@rest variable in REXML::NotationDecl: |#{@rest}|"
       end
-    end
-  end
+    end 
+  end unless defined?(NotationDecl)
 
 end
