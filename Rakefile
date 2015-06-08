@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'rake/clean'
-require 'rake/gempackagetask'
-require 'rake/rdoctask'
+require 'rdoc/task'
 require 'rake/testtask'
 require 'rdoc/rdoc'
 
@@ -57,7 +56,3 @@ spec = Gem::Specification.new do |s|
 #  s.extra_rdoc_files = ["README"]
 end
 
-Rake::GemPackageTask.new(spec) do |pkg|
-  pkg.need_zip = true
-  pkg.need_tar = true
-end
