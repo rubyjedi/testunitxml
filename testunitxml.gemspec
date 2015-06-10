@@ -1,6 +1,6 @@
 spec = Gem::Specification.new do |s|
   s.name = 'rubyjedi-testunitxml'
-  s.version = '0.1.6.3'
+  s.version = '0.1.7.3'
   s.authors = ['Henrik Mårtensson', "Laurence A. Lee"]
   s.email = ['dag.henrik.martensson@gmail.com', 'rubyjedi@gmail.com']
   s.homepage = "https://github.com/rubyjedi/testunitxml"

@@ -1,7 +1,9 @@
 = Test::Unit::XML
 == An XML Test Framework
 
-Version: 0.1.5
+Version: 0.1.7.3
+
+(As maintained by Rubyjedi)
 
 Author: Henrik Mårtensson
 

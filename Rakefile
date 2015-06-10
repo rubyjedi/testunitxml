@@ -7,7 +7,7 @@ require 'rdoc/rdoc'
 #include FileUtils::DryRun
 
 PROJECT_NAME = "rubyjedi-testunitxml"
-PACKAGE_VERSION = "0.1.5"
+PACKAGE_VERSION = "0.1.7.3"
 PACKAGE_FILES = FileList["README", "CHANGES", "MIT-LICENSE", "{docs,lib,test}/**/*"].exclude("rdoc").to_a
 
 SRC = FileList["README", "CHANGES", "MIT-LICENSE", "lib/**/*.rb"]
