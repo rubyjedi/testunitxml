@@ -9,6 +9,7 @@ module REXML
   class DocType
     
     # This method retrieves the public identifier identifying the document's DTD.
+    undef :public if method_defined? :public
     def public
       case @external_id
       when "SYSTEM"
@@ -19,6 +20,7 @@ module REXML
     end
     
     # This method retrieves the system identifier identifying the document's DTD
+    undef :system if method_defined? :system
     def system
       case @external_id
       when "SYSTEM"
@@ -30,12 +32,14 @@ module REXML
     
     # This method returns a list of notations that have been declared in the
     # _internal_ DTD subset. Notations in the external DTD subset are not listed.
+    undef :notations if method_defined? :notations
     def notations
       children().select {|node| node.kind_of?(REXML::NotationDecl)}
     end
     
     # Retrieves a named notation. Only notations declared in the internal
     # DTD subset can be retrieved.
+    undef :notation if method_defined? :notation
     def notation(name)
       notations.find { |notation_decl|
         notation_decl.name == name
@@ -44,6 +48,7 @@ module REXML
     
     private
     
+    undef strip_quotes if private_method_defined? :strip_quotes
     def strip_quotes(quoted_string)
       quoted_string =~ /^[\'\"].*[\'\"]$/ ?
         quoted_string[1, quoted_string.length-2] :

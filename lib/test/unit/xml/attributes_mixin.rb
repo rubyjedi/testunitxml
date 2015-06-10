@@ -8,6 +8,7 @@ module REXML
     # The +get_attribute_ns+ method retrieves a method by its namespace
     # and name. Thus it is possible to reliably identify an attribute
     # even if an XML processor has changed the prefix.
+    undef :get_attribute_ns if method_defined? :get_attribute_ns
     def get_attribute_ns(namespace, name)
       each_attribute() { |attribute|
         if name == attribute.name &&
